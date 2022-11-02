@@ -10,4 +10,4 @@ app = FastAPI()
 
 
 #app.include_router(login,tags=["login"], prefix="/login")
-app.include_router(createUser,tags=["create_user"], prefix="/create_user")
+app.include_router(createUser,tags=["create_user"], prefix="")
