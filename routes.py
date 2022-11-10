@@ -1,12 +1,7 @@
-from ast import Return
-from distutils.log import Log
-from http.client import HTTPException, responses
-from urllib import response
-from xxlimited import new
+from http.client import HTTPException
 from dotenv import dotenv_values
 from fastapi import APIRouter, status, Request, HTTPException
 from passlib.hash import pbkdf2_sha256 
-
 from fastapi.encoders import jsonable_encoder
 from deta import Deta
 
@@ -22,7 +17,7 @@ db = deta.Base("users")
 
 
 
-@router.post("/create_user", response_description="Create a Create user. Requires userName, password, email", status_code=status.HTTP_201_CREATED)
+@router.post("/create-user", response_description="Create a Create user. Requires userName, password, email", status_code=status.HTTP_201_CREATED)
 def createUser(requset: Request, newUser: CreateUser):
     try:
         checkThisName =  jsonable_encoder(db.fetch(query={"userName":newUser.userName}))
@@ -52,7 +47,7 @@ def login(request:Request, credentials: Login):
     
     userInfo = userLoginInfo["_items"][0]
     if pbkdf2_sha256.verify(credentials.password,userLoginInfo["_items"][0]["password"]):
-        return {"login":True,"item":{"key":userInfo["key"],"userName":userInfo["userName"],"email":userInfo["email"]}}
+        return {"loginSuccessful":True,"item":{"key":userInfo["key"],"userName":userInfo["userName"],"email":userInfo["email"]}}
     
     else:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Password incorrect")
